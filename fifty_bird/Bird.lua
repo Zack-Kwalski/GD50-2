@@ -12,6 +12,9 @@ function Bird:init()
 end
 
 function Bird:update(dt)
+	if love.keyboard.wasPressed('space') then
+		self.yspeed  = -5
+	end
 	self.yspeed  = self.yspeed + GRAVITY*dt
 	self.y = self.y + self.yspeed
 end
