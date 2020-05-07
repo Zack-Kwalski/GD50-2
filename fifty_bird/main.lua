@@ -1,6 +1,7 @@
 push = require 'push'
 Class = require 'class'
 require 'Bird'
+require 'Pipe'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -8,7 +9,9 @@ WINDOW_HEIGHT = 720
 VIRTUAL_WIDTH = 512
 VIRTUAL_HEIGHT = 288
 
-local background  = love.graphics.newImage("background.png")
+nFont =  love.graphics.newFont('font.ttf',10)
+
+local background  = love.graphics.newImage('background.png')
 local ground = love.graphics.newImage("ground.png")
 
 local backgroundScroll =0 
@@ -20,10 +23,15 @@ local GROUND_SCROLL_SPEED = 60
 local BACKGROUND_LOOPING_POINT = 413
 
 local bird = Bird()
+local pipes = {}
+
+local spawnTimer = 0
 
 function love.load()
 	love.graphics.setDefaultFilter('nearest','nearest')
 	love.window.setTitle('Zack_Kwalski(Shikhar)')
+
+	math.randomseed(os.time())
 
 	push:setupScreen(VIRTUAL_WIDTH,VIRTUAL_HEIGHT,WINDOW_WIDTH,WINDOW_HEIGHT, {
 		vsync =true,
@@ -52,15 +60,43 @@ end
 function love.update(dt)
 	backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED*dt) % BACKGROUND_LOOPING_POINT
 	groundScroll = (groundScroll + GROUND_SCROLL_SPEED*dt) % VIRTUAL_WIDTH
+
+	spawnTimer = spawnTimer + dt 
+
+	if spawnTimer > 2  then
+		table.insert(pipes, Pipe())
+		print('Added new pipe!')
+	    spawnTimer = 0  
+	end
+
 	bird:update(dt)
+
+	for k, pipe in pairs(pipes) do 
+		pipe:update(dt)
+
+		if pipe.x < - pipe.width then
+			table.remove(pipes , k)
+		end
+	end
+
 	love.keyboard.keysPressed = {}
 end
 
 function love.draw()
 	push:start()
 	love.graphics.draw(background,-backgroundScroll,0)
-	love.graphics.draw(ground,-groundScroll,VIRTUAL_HEIGHT -16)
 
+	for k, pipe in pairs(pipes) do
+		pipe:render()
+	end
+
+	love.graphics.draw(ground,-groundScroll,VIRTUAL_HEIGHT -16)
+   
 	bird:render()
+
+	love.graphics.setFont(nFont)
+	love.graphics.setColor(255,0, 0, 255)
+	love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()),10,10)
+	love.graphics.print(tostring(dt),100,10)
 	push:finish()
 end
