@@ -11,6 +11,11 @@ function Bird:init()
 	self.yspeed = 0
 end
 
+--function Bird:collsion(pipe)
+--	if self.x + self.width - 2 >= pipe.x and self.x + 2 <= pipe.x + pipe.width then 
+--		return (self.y + self.height - 2 >= pipe.y and self.y + 2 <= pipe.x + pipe.width)
+--	end
+--end
 function Bird:update(dt)
 	if love.keyboard.wasPressed('space') then
 		self.yspeed  = -5
