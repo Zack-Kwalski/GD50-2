@@ -5,8 +5,7 @@ PIPE_HEIGHT = 288
 PIPE_SPEED = 60
 
 function PlayState:init()
-	bird = Bird()
-	pipePairs = {}
+	
 	self.timer = 0
 	self.lastY = -PIPE_HEIGHT + math.random(80) + 20
 	self.score = 0
@@ -70,5 +69,5 @@ function PlayState:render()
     bird:render()
 
     love.graphics.setFont(flappyFont)
-    love.graphics.print('Score : '.. tostring(self.score), 0,40)
+    love.graphics.print('Score : '.. tostring(self.score), 0, 10)
 end

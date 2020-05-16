@@ -5,8 +5,9 @@ require 'Pipe'
 require 'PipePair'
 require 'stateMachine'
 require 'states/BaseState'
-require 'states/PlayState'
 require 'states/TitleScreenState'
+require 'states/CountdownState'
+require 'states/PlayState'
 require 'states/ScoreState'
 
 WINDOW_WIDTH = 1280
@@ -47,7 +48,8 @@ function love.load()
     gStateMachine = StateMachine{                                  --?????
         ['title'] = function() return TitleScreenState() end,
         ['play'] = function() return PlayState() end,
-        ['score'] = function() return ScoreState() end             --#1
+        ['score'] = function() return ScoreState() end,             --#1
+        ['countdown'] = function() return CountdownState() end
     }
     gStateMachine:change('title')
 
@@ -85,8 +87,9 @@ function love.draw()
     gStateMachine:render()
     love.graphics.draw(ground, -groundScroll, VIRTUAL_HEIGHT - 16)
 
+    love.graphics.setFont(smallFont)
     love.graphics.print('FPS : ' .. tostring(love.timer.getFPS(), 10,10))
-    love.graphics.print(tostring(frameRate), 100,0)
+    love.graphics.print('FrameRate : ' .. tostring(frameRate), 100,0)
     
     push:finish()
 end
