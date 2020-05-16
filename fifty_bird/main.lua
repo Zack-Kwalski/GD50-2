@@ -53,6 +53,17 @@ function love.load()
     }
     gStateMachine:change('title')
 
+    sounds = {
+        ['hurt'] = love.audio.newSource('sounds/hurt.wav', 'static'),
+        ['jump'] = love.audio.newSource('sounds/jump.wav', 'static'),
+        ['explosion'] = love.audio.newSource('sounds/explosion.wav', 'static'),
+        ['score'] = love.audio.newSource('sounds/score.wav', 'static'),
+        ['music'] = love.audio.newSource('sounds/marios_way.mp3', 'static')
+    }
+
+    sounds['music']:setLooping(true)
+    sounds['music']:play()
+
     love.keyboard.keysPressed = {}
 end
 

@@ -20,6 +20,7 @@ function Bird:collision(pipe)
 end
 function Bird:update(dt)
 	if love.keyboard.wasPressed('space') then
+		sounds['jump']:play()
 		self.yspeed  = -5
 	end
 	self.yspeed  = self.yspeed + GRAVITY*dt
