@@ -19,7 +19,7 @@ function Bird:collision(pipe)
     end 
 end
 function Bird:update(dt)
-	if love.keyboard.wasPressed('space') then
+	if love.keyboard.wasPressed('space') or love.mouse.wasPressed(1) then
 		sounds['jump']:play()
 		self.yspeed  = -5
 	end
